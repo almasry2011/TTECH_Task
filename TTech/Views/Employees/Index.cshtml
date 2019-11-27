@@ -1,0 +1,70 @@
+﻿
+@model EmployeeViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="Index">
+    <div>
+        Find by name: <input type="text" name="search" value="@Model.SearchVal" />
+        <input type="submit" value="Search" class="btn btn-primary" /> |
+        <a asp-action="Index">Back to Full List</a>
+
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a href='/employees?search=@Model.SearchVal&Order=FirstName&page=@Context.Request.Query["page"] '>FirstName</a>
+            </th>
+            <th>
+                <a href='/employees?search=@Model.SearchVal&Order=LastName&page=@Context.Request.Query["page"] '>LastName</a>
+            </th>
+            <th>
+                <a href='/employees?search=@Model.SearchVal&Order=Date&page=@Context.Request.Query["page"] '>EnrollmentDate</a>
+            </th>
+            <th>Row Version</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.employees)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrollmentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RowVersion)
+            </td>
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.EmployeeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.EmployeeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.EmployeeId">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+@for (int i = 1; i <= Model.paging.TotalPages; i++)
+{
+    <a class="btn btn-xs btn-primary" href=" /employees?search=@Model.SearchVal&Order=@Model.OrderVal&page=@i ">@i.ToString()</a>
+}
+
+

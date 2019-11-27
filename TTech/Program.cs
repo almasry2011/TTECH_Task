@@ -19,6 +19,11 @@ namespace TTech
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging(logBuilder =>
+                {
+                    logBuilder.ClearProviders();
+                    logBuilder.AddConsole();
+                 })
                 .UseStartup<Startup>();
     }
 }
